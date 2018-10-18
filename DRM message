@@ -1,0 +1,60 @@
+#include <iostream>
+#include <string>
+#include <map>
+
+using namespace std;
+
+const char keys[ 10 ][ 4 ] = {
+	{ 0 },
+	{ 0 },
+	{ 'A', 'B', 'C', 0 },
+	{ 'D', 'E', 'F', 0 },
+	{ 'G', 'H', 'I', 0 },
+	{ 'J', 'K', 'L', 0 },
+	{ 'M', 'N', 'O', 0 },
+	{ 'P', 'Q', 'R', 'S' },
+	{ 'T', 'U', 'V', 0 },
+	{ 'W', 'X', 'Y', 'Z' }
+};
+
+const int indexes[] = { 0, 0, 3, 3, 3, 3, 3, 4, 3, 4 };
+
+int main() {
+
+	string line;
+
+	while ( getline( cin, line ) ) {
+		//cout << line << endl;
+
+		string output;
+		int key = 0;
+		int rep = 0;
+
+		for ( char keyStroke : line ) {
+
+			if ( keyStroke == '#' ) { // never happens first
+				output += keys[ key ][ rep % ( indexes[ key ] ) ]; // flush
+				rep = 0;
+				key = 0;
+				continue;
+			}
+
+			int stroke = keyStroke - '0';
+			if ( !key ) {
+				key = stroke;
+				rep = 0;
+				continue;
+			}
+
+			if ( stroke != key ) {
+				output += keys[ key ][ rep % ( indexes[ key ] ) ]; // flush
+				key = stroke;
+				rep = 0;
+			} else {
+				rep++;
+			}
+		}
+		output += keys[ key ][ rep % ( indexes[ key ] ) ];
+		cout << output << endl;
+	}
+}
