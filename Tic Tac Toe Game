@@ -1,0 +1,196 @@
+// Tic Tac Toe game.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+
+char matrix[3][3]{ '1','2','3','4','5','6','7','8','9' };
+char player = 'X';
+
+void Draw()
+{
+	std::cout << "Tic Tac Toe V1.0" << std::endl;
+
+	for (int i = 0; i < sizeof(matrix[0]); ++i)
+	{
+		for (int j = 0; j < sizeof(matrix[0]); ++j)
+		{
+			std::cout << matrix[i][j] << " ";
+		}
+		std::cout << std::endl;
+	}
+}
+
+void Input()
+{
+	int a;
+
+	std::cout << "It's "<< player << " turn." << " Press the number of field: ";
+	std::cin >> a;
+
+	if (a == 1)
+	{
+		if(matrix[0][0] =='1')
+			matrix[0][0] = player;
+		else
+		{
+			std::cout << "This position is already occupied, try another one!" << std::endl;
+			Input();
+		}
+	}
+		
+	else if (a == 2)
+	{
+		if (matrix[0][1] == '2')
+			matrix[0][1] = player;
+		else
+		{
+			std::cout << "This position is already occupied, try another one!" << std::endl;
+			Input();
+		}
+	}
+	
+	else if (a == 3)
+	{
+		if (matrix[0][2] == '3')
+			matrix[0][2] = player;
+		else
+		{
+			std::cout << "This position is already occupied, try another one!" << std::endl;
+			Input();
+		}
+	}
+	else if (a == 4)
+	{
+		if (matrix[1][0] == '4')
+			matrix[1][0] = player;
+		else
+		{
+			std::cout << "This position is already occupied, try another one!" << std::endl;
+			Input();
+		}
+	}
+	else if (a == 5)
+	{
+		if (matrix[1][1] == '5')
+			matrix[1][1] = player;
+		else
+		{
+			std::cout << "This position is already occupied, try another one!" << std::endl;
+			Input();
+		}
+	}
+		
+	else if (a == 6)
+	{
+		if (matrix[1][2] == '6')
+			matrix[1][2] = player;
+		else
+		{
+			std::cout << "This position is already occupied, try another one!" << std::endl;
+			Input();
+		}
+	}
+		
+	else if (a == 7)
+	{
+		if (matrix[2][0] == '7')
+			matrix[2][0] = player;
+		else
+		{
+			std::cout << "This position is already occupied, try another one!" << std::endl;
+			Input();
+		}
+	}
+		
+	else if (a == 8)
+	{
+		if (matrix[2][1] == '8')
+			matrix[2][1] = player;
+		else
+		{
+			std::cout << "This position is already occupied, try another one!" << std::endl;
+			Input();
+		}
+	}
+		
+	else if (a == 9)
+	{
+		if (matrix[2][2] == '9')
+			matrix[2][2] = player;
+		else
+		{
+			std::cout << "This position is already occupied, try another one!" << std::endl;
+			Input();
+		}
+		
+	}
+		
+}
+
+void TogglePlayer()
+{
+	if (player == 'X')
+		player = '0';
+	else { player = 'X'; }
+}
+
+char Win()
+{
+	if(matrix[0][0]=='X'&& matrix[0][1]=='X'&& matrix[0][2]=='X')
+		return 'X';
+	if (matrix[1][0] == 'X'&& matrix[1][1] == 'X'&& matrix[1][2] == 'X')
+		return 'X';
+	if (matrix[2][0] == 'X'&& matrix[2][1] == 'X'&& matrix[2][2] == 'X')
+		return 'X';
+
+	if (matrix[0][0] == 'X'&& matrix[1][0] == 'X'&& matrix[2][0] == 'X')
+		return 'X';
+	if (matrix[0][1] == 'X'&& matrix[1][1] == 'X'&& matrix[2][1] == 'X')
+		return 'X';
+	if (matrix[0][2] == 'X'&& matrix[1][2] == 'X'&& matrix[2][2] == 'X')
+		return 'X';
+
+
+	if (matrix[0][0] == 'X'&& matrix[1][1] == 'X'&& matrix[2][2] == 'X')
+		return 'X';
+	if (matrix[0][2] == 'X'&& matrix[1][1] == 'X'&& matrix[2][0] == 'X')
+		return 'X';
+
+	return '/';
+}
+
+int main()
+{
+	int n = 0;
+
+	Draw();
+	while (1)
+	{
+		n++;
+		Input();
+		Draw();
+		if (Win()=='X')
+		{
+			std::cout << "X Win!" << std::endl;
+			break;
+			system("cls");
+		}
+		else if(Win() =='0')
+		{
+			std::cout << "0 Win!" << std::endl;
+			break;
+			system("cls");
+		}
+		else if(Win()=='/'&& n==9)
+		{
+			std::cout << "It's a draw!" << std::endl;
+			break;
+		}
+		TogglePlayer();
+	}
+
+
+    return 0;
+}
+
