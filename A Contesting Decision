@@ -1,0 +1,100 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
+
+using namespace std;
+
+const int PTIME = 20;
+
+struct problem {
+
+	int subs_;
+	int time_;
+
+	problem( int s, int t ) : subs_( s ), time_( t ) {}
+};
+
+struct team {
+
+	string name_;
+	vector<problem> problems_;
+
+	team( string n = "" ) : name_( n ) {}
+
+	int solved() const {
+
+		int total = 0;
+		for ( problem p : problems_ ) {
+			if ( p.time_ ) {
+				total++;
+			}
+		}
+
+		return total;
+	}
+
+	int penaltyTime() const {
+
+		int total = 0;
+		for ( problem p : problems_ ) {
+			if ( p.time_ ) {
+				total += p.time_ + ( p.subs_ - 1 ) * PTIME;
+			}
+		}
+
+		return total;
+	}
+};
+
+int main() {
+
+	// there are four problems
+	// no ties
+
+	int numberOfTeams;
+	cin >> numberOfTeams;
+
+	//cout << teams << " teams" << endl;
+
+	vector<team> teamsList;
+	for ( int t = 0; t < numberOfTeams; t++ ) {
+
+		string teamName;
+		cin >> teamName;
+
+		//cout << teamName << endl;
+
+		team currentTeam( teamName );
+
+		for ( int pn = 0; pn < 4; pn++ ) {
+
+			int subs;
+			cin >> subs;
+
+			int time;
+			cin >> time;
+
+			currentTeam.problems_.push_back( problem( subs, time ) );
+		}
+
+		teamsList.push_back( currentTeam );
+	}
+
+	team winner = teamsList[ 0 ];
+	//for ( auto t : teamsList ) {
+	//	cout << t.name_ << " solved " << t.solved() << " problems with " << t.penaltyTime() << " mins penalty time" << endl;
+	//}
+
+	for ( auto t : teamsList ) {
+		if ( t.solved() > winner.solved() ) {
+			winner = t;
+		} else if ( t.solved() == winner.solved() ) {
+			if ( t.penaltyTime() < winner.penaltyTime() ) {
+				winner = t;
+			}
+		}
+	}
+
+	cout << winner.name_ << " " << winner.solved() << " " << winner.penaltyTime() << endl;
+}
