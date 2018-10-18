@@ -1,0 +1,139 @@
+// Making ship battle (sinking).cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include <ctime>
+#include <string>
+#include <valarray>
+
+constexpr int rows = 10;
+constexpr int elements = 10;
+int matrix[rows][elements];
+int maxShips = 10;
+
+void Clear();
+void Show();
+void SetShips();
+bool Attack(int, int);
+int NumberOfShips();
+
+
+int main()
+{
+	srand(time(NULL));
+	
+	int pos1, pos2;
+	char prompt;
+	SetShips();
+	Show();
+	bool valid;
+	while (1)
+	{
+		do
+		{
+			valid = true;
+			std::cout << "Please input the location : ";
+			std::cin >> pos1 >> pos2;
+
+			if (std::cin.fail())
+			{
+				std::cin.clear();
+				std::cin.ignore();
+				valid = false;
+				std::cout << "Input number 1-9 only" << std::endl;
+			}
+			
+
+		}
+		while (!valid || NumberOfShips()==0);
+		if (Attack(pos1, pos2))
+			std::cout << "You got me :(" << std::endl;
+		else
+			std::cout << "Iam not in this position" << std::endl;
+		std::cout << "Number of ships left: " << NumberOfShips() << std::endl;
+		if (NumberOfShips() == 0)
+		{
+			std::cout << "You won the game! Congrat!" << std::endl;
+			break;
+		}
+		std::cout << "Do you want to surrender (y/n)?" << std::endl;
+		std::cin >> prompt;
+		if (prompt == 'Y' || prompt == 'y')
+			break;
+		else
+			continue;
+			
+	}
+	
+	std::cout << "Game Over!" << std::endl;
+	Show();
+
+	std::cin.get();
+    return 0;
+}
+
+void Clear()
+{
+	for (int i = 0; i < rows; ++i)
+	{
+		for (int j = 0; j < elements; ++j)
+		{
+			matrix[i][j] = 0;
+		}
+	}
+}
+
+void Show()
+{
+	for (int i = 0; i < rows; ++i)
+	{
+		for (int j = 0; j < elements; ++j)
+		{
+			std::cout << matrix[i][j] << " ";
+		}
+		std::cout << std::endl;
+	}
+}
+
+void SetShips()
+{
+	int s = 0;
+	while (s<maxShips)
+	{
+		int x = rand() % rows;
+		int y = rand() % elements;
+		if(matrix[x][y] != 1)
+		{
+			s++;
+			matrix[x][y] = 1;
+		}
+	}
+}
+
+bool Attack(int x,int y)
+{
+	if(matrix[x][y]==1)
+	{
+		matrix[x][y] = 2;
+		return true;
+	}
+
+	return false;
+}
+
+int NumberOfShips()
+{
+	int number_of_ships = 0;
+	for (int i = 0; i < rows; ++i)
+	{
+		for (int j = 0; j < elements; ++j)
+		{
+			if(matrix[i][j]==1)
+			{
+				number_of_ships++;
+			}
+		}
+	}
+	return number_of_ships;
+}
